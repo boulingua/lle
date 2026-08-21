@@ -1,7 +1,7 @@
 # LLE — Latin course roadmap
 
 > boulingua Latin course · repo code `lle` · signature accent `#C72334` (light) / `#E77E89` (dark) · pentagon mark.
-> Status today: empty scaffold (LICENSE, README, brand icons), flagged **coming soon** on the world map. This document is the plan to build the whole thing — content and website — on the pagegen standard and the boulingua curriculum framework.
+> Status today: empty scaffold (LICENSE, README, brand icons), flagged **coming soon** on the world map. This document is the plan to build the whole thing — content and website — on the boulingua `kit` and the curriculum framework.
 
 ---
 
@@ -32,29 +32,30 @@ Concrete, opinionated calls — each to be confirmed on first release.
 - **Variant / register.** **Classical (Golden/Silver Age) Latin as the spine.** Ecclesiastical/Medieval Latin offered as a **supplementary reading track** in later stages, not the default. No dialect fork.
 - **RTL / bidi.** Not applicable.
 - **Web fonts.** hugo-coder's default stack already covers Latin-with-macrons in modern system fonts. **Decision: keep the theme fonts; add a self-hosted, openly-licensed serif with full combining-macron + precomposed coverage** (e.g. an SIL/OFL face) for body text and worksheets, so macrons never fall back to tofu. Verify glyph coverage for `ā ē ī ō ū ȳ Ā Ē Ī Ō Ū` and `æ œ` in the QA gate.
-- **Native voice / Piper TTS — settled: none, and not to be re-litigated.** `lle` carries `status: none` in **`audiogen/voices.yml`** (relocating to `kit/audio/voices.yml` at F1), the registry every course reads its voice ID from; voice IDs are never hand-typed anywhere, because a transliterated ID is how a 404 gets written into a download script. That row records the measurement behind the decision: the upstream `rhasspy/piper-voices` catalogue snapshot of 2026-08-21 contains 174 voices and **zero `la` records**. There is no Latin voice to audition, no second-choice Latin voice beneath it, and no licence question to resolve. Of the three options once listed: (a) **ship no synthetic audio** — this is the decision; (b) *approximate with an Italian or Spanish Piper voice tuned to ecclesiastical values* — **rejected and closed**, because a voice is never substituted from a neighbouring language, however close the phonology looks; (c) **curate openly-licensed human readings** (many restored-classical readings are CC-licensed) — the only route to Latin audio there is, and a post-MVP, opt-in enhancement for a small set of showcase texts. What remains open in §9 is the *pronunciation* choice and whether the curation is worth the effort — not the availability of a voice. The README's "native-voice audio" promise is reworded accordingly to "reconstructed-pronunciation audio, where available."
+- **Native voice / Piper TTS — settled: none, and not to be re-litigated.** `lle` carries `status: none` in **`kit/audio/voices.yml`**, the registry every course reads its voice ID from; voice IDs are never hand-typed anywhere, because a transliterated ID is how a 404 gets written into a download script. That row records the measurement behind the decision: the upstream `rhasspy/piper-voices` catalogue snapshot of 2026-08-21 contains 174 voices and **zero `la` records**. There is no Latin voice to audition, no second-choice Latin voice beneath it, and no licence question to resolve. Of the three options once listed: (a) **ship no synthetic audio** — this is the decision; (b) *approximate with an Italian or Spanish Piper voice tuned to ecclesiastical values* — **rejected and closed**, because a voice is never substituted from a neighbouring language, however close the phonology looks; (c) **curate openly-licensed human readings** (many restored-classical readings are CC-licensed) — the only route to Latin audio there is, and a post-MVP, opt-in enhancement for a small set of showcase texts. What remains open in §9 is the *pronunciation* choice and whether the curation is worth the effort — not the availability of a voice. The README's "native-voice audio" promise is reworded accordingly to "reconstructed-pronunciation audio, where available."
 - **Level 0 — "Ianua" (script & sound onboarding).** A short pre-stage: alphabet review, **vowel length & macrons**, syllabification, **stress rules**, and a side-by-side of **restored-classical vs ecclesiastical** pronunciation so learners choose knowingly. 3–4 units. This is the Latin analogue of the script-onboarding stage other languages need for their writing systems.
 
 ---
 
-## 3. Instantiation from pagegen
+## 3. Standing the site up on the kit
 
-Stand up the buildable site first; author content into it second.
+Stand up the buildable site first; author content into it second. Nothing here copies code: the shared surface is imported at a pinned tag, and a course repo holds content, marks, materials, brand and configuration only.
 
-1. **Copy the template.** Instantiate `pagegen` into this repo's working tree (content model, layouts, scripts, `.github/workflows/build-deploy.yml`, legal scaffold, VG Wort resolver). Keep the existing `lle` `LICENSE`, `README.md` and `brand/` icons.
-2. **Edit only the marked `hugo.toml` values:**
+1. **Create the repo around the kit import.** `lle` carries a short `hugo.toml` (the marked values below plus `[module] [[module.imports]] path = "github.com/boulingua/kit"`), a `go.mod`/`go.sum` with `require github.com/boulingua/kit v1.0.0`, `boulingua.yml` (the single per-course config the gate battery reads), the twelve-line `.github/workflows/deploy.yml` taken verbatim from `kit/templates/deploy.yml`, an empty `content/` skeleton and the three legal pages. Keep the existing `lle` `LICENSE`, `README.md` and `brand/` icons. `layouts/`, `assets/`, `scripts/`, `i18n/` and `archetypes/` are **not** copied and must never appear in this repo — they are the drift surface, and a file that is not there cannot fork. Hugo resolves them from the module; CI checks the same tag out for the gate battery, and `bin/kit` does the same locally.
+2. **Vendor `_materials/`.** Run `kit materials sync`: it assembles the `.sty` files, the fonts and the icon PDFs flat into `lle/_materials/`, because XeLaTeX cannot read a Hugo module. This is the only vendored surface in the repo and every byte of it is digest-locked in `kit.lock`, so a hand edit fails the next `bin/kit check`. (The instruction this replaces told authors to copy `_materials/` from the template; `pagegen/_materials/` never existed.)
+3. **Edit only the marked `hugo.toml` values:**
    - `baseURL = "https://boulingua.github.io/lle/"`
    - `title = "Latin — S. Le Boulanger"`
    - `languageCode = "la"` · `defaultContentLanguage = "en"` (UI/metalanguage is English/German; Latin is the object language)
    - `[params].navTitle = "Latin"` · `description` = a Latin-reading course line · `keywords = "Latin,Latinum,CEFR reception,reading,classical,grammar,OER"`
    - `[[params.social]].url = "https://github.com/boulingua/lle"`
-   - `[params.plausible].domain = "boulingua.github.io/lle"`
-   - `params.code = "lle"` ← selects the accent from `data/accents.yaml`
+   - `[params.plausible].domain = "boulingua.github.io/lle"` — keep this sub-table **last**, after every bare `[params]` key: TOML scopes everything following a header to that header, so a sub-table opened early silently swallows the keys above it.
+   - `params.code = "lle"` ← selects the accent from the kit's `data/accents.yaml`, and matters more now than it did: an unset code resolves to the kit's neutral graphite `template` accent and looks obviously unfinished, where the old template made an unconfigured course look like DaF. Gate F7-C3 makes it fatal.
    - Replace the `[[menu.main]]` sections with the Latin section landings (Ianua, Stage I–IV, Materials, Appendices, About, Legal).
-3. **Regenerate the pentagon.** `python brand/make_icon.py lle` → writes `brand/icon.svg/png`, `static/favicon-*.png`, `apple-touch-icon.png` in `#C72334`. Confirm the committed `lle/brand/icon.*` match (regenerate and overwrite from the canonical script rather than keeping hand-made copies).
-4. **Confirm accent data.** `data/accents.yaml` already carries `lle` (`accent #C72334`, `hover #A01C2A`, `dark #E77E89`, `dark_hover #EFA9B0`) — verify, do not edit CSS.
-5. **Fill legal placeholders.** Complete the ⟨…⟩ in `impressum` / `datenschutz` / `haftungsausschluss`; the Datenschutz page must carry the VG Wort METIS disclosure clause verbatim from the standard.
-6. **First green build + Pages.** `hugo --minify --gc` clean; run the gate battery locally (`scripts/verify_*`); enable GitHub Pages via the workflow. **Definition of a passing scaffold:** builds with zero errors, one A1-stub unit + its exam render, VG Wort render/manifest gates pass on the stub, legal pages have no ⟨…⟩ left.
+4. **Regenerate the pentagon.** Run the kit's `make_icon.py` for `lle` → writes `brand/icon.svg`/`png` and the favicon set in `#C72334`. `brand/` is the one brand surface the course owns; regenerate and overwrite from the canonical script rather than keeping hand-made copies.
+5. **Confirm accent data.** The kit's `data/accents.yaml` already carries `lle` (`accent #C72334`, `hover #A01C2A`, `dark #E77E89`, `dark_hover #EFA9B0`) — verify, and note there is no course CSS to edit even if you wanted to.
+6. **Fill legal placeholders.** Complete the ⟨…⟩ in `impressum` / `datenschutz` / `haftungsausschluss`; the Datenschutz page must carry the VG Wort METIS disclosure clause verbatim from the standard. The placeholder gate is blocking, with no `|| true` to remove — suppressions are prohibited org-wide.
+7. **First green build + Pages.** `hugo --minify --gc --panicOnWarning` clean — a warning now fails the build — then `bin/kit check`, which runs exactly the battery CI runs; enable GitHub Pages via the workflow. **Definition of a passing scaffold:** builds with zero errors and zero warnings, one A1-stub unit + its exam render, VG Wort render/manifest gates pass on the stub, `_materials/` matches `kit.lock`, legal pages have no ⟨…⟩ left, and the repo contains no `layouts/`, `assets/`, `scripts/`, `i18n/` or `archetypes/`.
 
 ---
 
@@ -108,17 +109,17 @@ Reading stages, unit counts, effort tags (S ≤ ½ day, M ~1–2 days, L ~3–5 
 ## 6. Website & materials
 
 - **Section landings** (`_index.md`, `page_type: section`) rendered **via shortcodes only — never raw HTML** — for L0/Ianua, each Stage, Materials, Appendices, About.
-- **Materials pipeline.** Generate decks and worksheets **locally** from the branded **slidegen** (LaTeX Beamer) and **sheetgen** (LaTeX worksheet) templates, export **editable source + PDF**, and **commit** them under `static/materials/` and `static/downloads/`. CI **verifies presence + attribution only** (no TeX Live in the deploy path). Wire each into a unit's `presentation:`/`worksheet:` front-matter `{ file, thumbnail }`.
+- **Materials pipeline.** Generate decks and worksheets **locally** from the branded LaTeX templates in `kit/latex/` (Beamer deck, worksheet), export **editable source + PDF**, and **commit** them under `static/materials/` and `static/downloads/`. CI **verifies presence + attribution only** (no TeX Live in the deploy path). Wire each into a unit's `presentation:`/`worksheet:` front-matter `{ file, thumbnail }`.
 - **Thumbnails.** `render_thumbs.py` produces committed preview images for every deck/worksheet.
 - **Downloads.** All PDFs + editable sources under `static/downloads/`; `verify_downloads.py` gate confirms every linked download exists and is attributed (CC BY-SA 4.0, source citation for any quoted public-domain text).
-- **Audio (audiogen / Piper).** **No Latin Piper voice exists** — verified against the 174-voice upstream catalogue (zero `la` records) and recorded as `status: none` in `audiogen/voices.yml`, `kit/audio/voices.yml` from F1; see §2. **Plan:** the Piper pipeline is never run for `lle`. MVP ships **no audio at all**; a later opt-in phase adds **curated openly-licensed human recordings** (restored-classical) for showcase passages, delivered as OGG/Opus through the audiogen structure and attributed like any other openly-licensed source. Substituting an Italian or Spanish voice is **not** a fallback and is closed (§2). What §9 still decides is the pronunciation of the curated recordings, not whether to synthesise.
+- **Audio (`kit/audio/` / Piper).** **No Latin Piper voice exists** — verified against the 174-voice upstream catalogue (zero `la` records) and recorded as `status: none` in `kit/audio/voices.yml` — the single source of truth for voice IDs, never hand-typed into prose; see §2. **Plan:** the Piper pipeline is never run for `lle`. MVP ships **no audio at all**; a later opt-in phase adds **curated openly-licensed human recordings** (restored-classical) for showcase passages, delivered as OGG/Opus through the kit's audio structure (`kit/docs/AUDIO_STRUCTURE.md`) and attributed like any other openly-licensed source. Substituting an Italian or Spanish voice is **not** a fallback and is closed (§2). What §9 still decides is the pronunciation of the curated recordings, not whether to synthesise.
 - **Public-domain corpus.** Every primary text is quoted from a **cited public-domain edition** (Perseus/PHI/The Latin Library provenance recorded); the copyright advantage means authentic texts appear from Stage III with no licensing friction.
 
 ---
 
 ## 7. VG Wort — pixel assignment for ALL content pages (required, non-skippable)
 
-**Binding standard** (`pagegen/docs/vgwort-standard.md`). **Every** original creative page ≥ **1800 characters** of rendered prose gets **exactly one** VG Wort Zählmarke, on exactly one URL:
+**Binding standard** (`kit/docs/vgwort-standard.md`). **Every** original creative page ≥ **1800 characters** of rendered prose gets **exactly one** VG Wort Zählmarke, on exactly one URL:
 
 - **Which pages:** every **unit**, every **exam**, every **appendix**, and every long-form **editorial** page (about, get-started, civilisation essays, acknowledgements, references intro) that reaches the *Mindestumfang*.
 - **Which pages never get one:** the home page, the Materials hub and other navigation/index/tag pages, paginated continuations, and the **templated legal pages** (Impressum / Datenschutz / Haftungsausschluss).
