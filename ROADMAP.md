@@ -1,3 +1,11 @@
+> **Implementation update — 30 October 2026.** A runnable development site and
+> `curriculum.yml` now exist. The current framework version is 1.2.0. Use the
+> shared `kit` commands and `README.md` for setup; `pagegen`, `slidegen`,
+> `sheetgen` and `audiogen` are archived predecessors. Older status counts,
+> installation commands and `conformance.yml` names below are historical.
+> The language-specific teaching plan remains pending; a building shell does
+> not satisfy its learner-release milestones. See `REFINEMENT.md`.
+
 <!-- status-audit-2026-09-09 -->
 > ## Status audit — 2026-09-09
 >
@@ -5,7 +13,7 @@
 > The build plan below stands and is not superseded. This box records what the platform
 > now requires that the plan predates, and what the first moves are.
 >
-> **Declared scope (from this plan):** CEFR-aligned reading stages (reception) only. Target ceiling: B2 reading of unadapted classical prose/verse. C1-reading appreciation is aspirational. Oral interaction and production are out-of-scope-for-classical.
+> **Declared scope (from this plan):** Reading-focused stages under the accepted classical-reception profile. Target ceiling: B2 reading of unadapted classical prose/verse. C1-reading appreciation is aspirational. Oral interaction and production are out-of-scope-for-classical.
 >
 > ### Platform requirements added since this plan was written
 >
@@ -55,7 +63,7 @@
 
 **The 3–5 defining challenges (the language-specific reframe):**
 
-1. **No native speakers, no living community.** The modern communicative A1–C2 apparatus (interaction, oral production, sociolinguistic appropriateness of a speech community, online transactions) has **no target** in a classical language. These domains are declared **out-of-scope-for-classical**, honestly and explicitly, not silently skipped.
+1. **Classical reading focus.** Apply the exact oral PROD/INT scale exclusions in ADR-0013. This is a course-scope decision, not a claim that Latin has no contemporary speakers. REC, MED, PLUR, LING, SOC and PRAG remain applicable; do not exclude entire domains.
 2. **Reception-first by nature.** The course is overwhelmingly **reading, grammar, morphology and mediation (translation into a modern language)**. Conformance is reframed around the framework's **REC / LING / MED** scales.
 3. **Copyright is an advantage, not a constraint.** Every primary text (Caesar, Cicero, Vergil, Ovid, the Vulgate, Catullus…) is **public domain**. Sister sites fight for openly-licensed input; Latin has an unlimited, citable corpus.
 4. **Pronunciation is reconstructed, not attested.** Audio must choose between **restored classical** and **ecclesiastical** pronunciation, and there is **no Latin Piper voice at all** — verified, not assumed: the upstream `rhasspy/piper-voices` catalogue snapshot of 2026-08-21 holds 174 voices and **zero `la` records**. Synthetic audio is therefore closed, permanently. What stays open is whether to curate human recordings, and in which pronunciation (§2, §6, §9).
@@ -103,7 +111,7 @@ Stand up the buildable site first; author content into it second. Nothing here c
 
 **Framework:** `boulingua-curriculum` (pin the version in the manifest). Latin is the **odd one out** — the framework's own *"Honest note on instantiation"* explicitly authorises declaring gaps, and that is exactly what a classical language does.
 
-**Declared conformance level.** Target **`core`-depth coverage (A1–B1)** for the applicable domains, extending toward **B2 reception**, declared in the manifest as **`core-restricted`** with **`profile: classical-reception`** — the legal value for a conformance that is honest about whole domains having no classical target. We **cannot** claim `full`/`complete` — those require every in-scope scale including interaction and oral production, which have no classical target. The manifest declares this honestly.
+**Declared conformance level.** Target **`core`-depth coverage (A1–B1)** for the applicable domains, extending toward **B2 reception**, declared in the manifest as **`core-restricted`** with **`profile: classical-reception`** — the legal value for a conformance that is explicit about the enumerated oral-scale exclusions. We **cannot** claim `full`/`complete` — those require every in-scope scale including interaction and oral production, which have no classical target. The manifest declares this honestly.
 
 **Scales implemented (mapped to descriptor IDs `{LEVEL}.{DOMAIN}.{SCALE}.{SEQ}`):**
 
@@ -113,11 +121,19 @@ Stand up the buildable site first; author content into it second. Nothing here c
 - **PROD (written, partial).** `reports-and-essays` / `overall-written-production` in the **modern metalanguage about Latin texts**, plus optional **prose composition** (Latin *written* production) at Stage III+.
 - **PRAG (partial, receptive framing).** `coherence-and-cohesion`, `propositional-precision` as analytic reading competences.
 
-**Scales declared out-of-scope-for-classical (documented, not silent):** all **oral REC** (understanding a live audience / audio media / conversation between speakers), **all INT** (conversation, discussion, transactions, online, correspondence-as-exchange), **oral PROD** (monologue, addressing audiences, announcements), **SOC** (sociolinguistic appropriateness of a speech community), **PLUR** interaction scales. Each gets a per-scale `out_of_scope_classical` entry with a one-line rationale ("no living speech community; classical language read, not spoken/negotiated").
+**Approved profile scope (ADR-0013).** `curriculum/profiles/classical-reception.yml`
+is authoritative. It excludes the enumerated spoken-production and
+spoken-interaction scales only. Reception, mediation, plurilingual, linguistic,
+sociolinguistic and pragmatic cells remain fully required. The earlier proposal
+to exclude all oral reception, all interaction, SOC and PLUR is superseded by
+that accepted decision; written interaction remains in scope.
 
-**Machine-readable scope/coverage manifest.** Publish `conformance.yml` at the repo root (modelled on `curriculum/examples/de-a1/conformance.yml`): `framework`, `framework_version`, `language: la`, **`declared_conformance: core-restricted`** plus **`profile: classical-reception`** — `core (reception)` is not a legal value and must not be written — and a `scales:` table of `{scale, levels_covered, no-official-descriptor cells, out_of_scope_classical}`. Every unit's front-matter `curriculum.cefr_can_do` lists the descriptor IDs it realises.
-
-**Gate.** The reusable workflow `boulingua/.github/.github/workflows/course-build.yml@v1` runs `python .curriculum/scripts/conformance_audit.py resolve --manifest conformance.yml --content content`, which is what confirms each ID is well-formed, unique, and resolves to a real (scale, level) in `scale-registry.yml`. `id-audit.sh` audits the framework's *own* level files and **cannot** validate this repo. Do not wire it here. **A silently missing in-scope scale is a failure; a declared out-of-scope one is honest — declare, don't hide.**
+Publish `curriculum.yml` with `declared_conformance: core-restricted`,
+`profile: classical-reception`, and `conformance_status: in-progress` until the
+reviewed source evidence meets the framework's criteria. Each realization is a
+`page` / `implements_id` pair matching the page's `curriculum.implements` list.
+Run `python ../curriculum/scripts/conformance_audit.py .` from the course root.
+See the framework's `docs/conformance.md` for the schema and complete rules.
 
 ---
 
