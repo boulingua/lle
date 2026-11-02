@@ -1,0 +1,143 @@
+{
+  "scope": "Classical-reception profile: pronunciation references plus first reading unit/assessment drafts; no oral production/interaction or achieved coverage claim",
+  "sources": [
+    {
+      "url": "https://dcc.dickinson.edu/grammar/latin/alphabet",
+      "use": "Modern u/v/i editorial convention"
+    },
+    {
+      "url": "https://dcc.dickinson.edu/grammar/latin/quantity-syllables",
+      "use": "Vowel length versus syllable quantity"
+    },
+    {
+      "url": "https://dcc.dickinson.edu/grammar/latin/accents",
+      "use": "Penult rule and scoped exceptions"
+    },
+    {
+      "url": "https://dcc.dickinson.edu/grammar/latin/vowel-and-consonant-pronunciation",
+      "use": "Reconstructed classical reading model, not attested audio"
+    }
+  ],
+  "pages": [
+    {
+      "page": "a1/units/unit01-erste-begegnung",
+      "sha256": "29a34ef7f1ce80f8f989d1118243f2ef73f2d80d8a8c699202ac91737106fd4e",
+      "review_status": "pending",
+      "reviewer": null,
+      "mappings": [
+        {
+          "id": "A1.REC.overall-reading-comprehension.01",
+          "statement": "You can make sense of very short, simple texts one phrase at a time, spotting familiar names, words and basic phrases and rereading as needed.",
+          "basis": "proposed",
+          "task_evidence": "Very short original narrative read with repeated passes; Practise1/5 and exam1/4 trace explicit facts. Proposed restricted-profile reading evidence only.",
+          "review_decision": null
+        },
+        {
+          "id": "A1.MED.processing-text.02",
+          "statement": "You can, with the help of a dictionary, convey in writing the meaning of simple L-A phrases on familiar, everyday themes.",
+          "basis": "proposed",
+          "task_evidence": "Apply conveys the simple Latin narrative in writing using the supplied mini-lexicon; exam3 observes written meaning transfer.",
+          "review_decision": null
+        },
+        {
+          "id": "A1.MED.translating-a-written-text.02",
+          "statement": "I can use a dictionary to translate simple words and phrases in writing, though I may not always pick the appropriate meaning.",
+          "basis": "proposed",
+          "task_evidence": "Practise4 and exam3 translate simple phrases with an explicit lexicon. Evidence supports only this task slice, not all possible dictionary use.",
+          "review_decision": null
+        },
+        {
+          "id": "A1.LING.orthographic-control.01",
+          "statement": "You copy familiar words and short phrases (signs, instructions, object names, shop names, set phrases), spell your address, nationality, and other personal details, and use basic punctuation like full stops and question marks.",
+          "basis": "proposed",
+          "task_evidence": "Practise3 and exam2 copy familiar forms, spaces and macrons exactly; proposed partial orthographic evidence, no personal-information or oral claim.",
+          "review_decision": null
+        }
+      ],
+      "source_revisions": [
+        {
+          "previous_sha256": "080b71a2df9c1056a1818f6bc7752f1aca1866512883a31835c204b6225ee8b3",
+          "reason": "Added verified draft download metadata; teaching body unchanged."
+        }
+      ]
+    },
+    {
+      "page": "a1/units/unit01-erste-begegnung-exam",
+      "sha256": "9808ff4030d4fb02fa2b7a0a47b1d3760020d9d7e323871797ad3b60f50f421d",
+      "review_status": "pending",
+      "reviewer": null,
+      "mappings": [
+        {
+          "id": "A1.REC.overall-reading-comprehension.01",
+          "statement": "You can make sense of very short, simple texts one phrase at a time, spotting familiar names, words and basic phrases and rereading as needed.",
+          "basis": "proposed",
+          "task_evidence": "Very short original narrative read with repeated passes; Practise1/5 and exam1/4 trace explicit facts. Proposed restricted-profile reading evidence only.",
+          "review_decision": null
+        },
+        {
+          "id": "A1.MED.processing-text.02",
+          "statement": "You can, with the help of a dictionary, convey in writing the meaning of simple L-A phrases on familiar, everyday themes.",
+          "basis": "proposed",
+          "task_evidence": "Apply conveys the simple Latin narrative in writing using the supplied mini-lexicon; exam3 observes written meaning transfer.",
+          "review_decision": null
+        },
+        {
+          "id": "A1.MED.translating-a-written-text.02",
+          "statement": "I can use a dictionary to translate simple words and phrases in writing, though I may not always pick the appropriate meaning.",
+          "basis": "proposed",
+          "task_evidence": "Practise4 and exam3 translate simple phrases with an explicit lexicon. Evidence supports only this task slice, not all possible dictionary use.",
+          "review_decision": null
+        },
+        {
+          "id": "A1.LING.orthographic-control.01",
+          "statement": "You copy familiar words and short phrases (signs, instructions, object names, shop names, set phrases), spell your address, nationality, and other personal details, and use basic punctuation like full stops and question marks.",
+          "basis": "proposed",
+          "task_evidence": "Practise3 and exam2 copy familiar forms, spaces and macrons exactly; proposed partial orthographic evidence, no personal-information or oral claim.",
+          "review_decision": null
+        }
+      ]
+    }
+  ],
+  "native_review": null,
+  "pedagogical_review": null,
+  "audio_decision": "transcript-only draft; no recording approved",
+  "reference_pages": [
+    {
+      "page": "aussprache/aussprachetradition",
+      "sha256": "9ba3101b21426d1aa38ccee40b4165a7bff3c40eb9ec6d9e185cbd5098ec03a8",
+      "review_status": "pending",
+      "reviewer": null,
+      "checks": [
+        "Check script and example spelling against cited primary references",
+        "Check pronunciation explanations and scoped exceptions",
+        "Exercise instructions with intended beginners",
+        "Review any future recording separately; no audio approval inferred"
+      ]
+    },
+    {
+      "page": "aussprache/schrift-und-makrons",
+      "sha256": "f7a79c41f2b21fcc5c835aaaf5052e113cabea956d3c42760b21d0a3c9d8c091",
+      "review_status": "pending",
+      "reviewer": null,
+      "checks": [
+        "Check script and example spelling against cited primary references",
+        "Check pronunciation explanations and scoped exceptions",
+        "Exercise instructions with intended beginners",
+        "Review any future recording separately; no audio approval inferred"
+      ]
+    },
+    {
+      "page": "aussprache/silben-und-betonung",
+      "sha256": "06bf9ce3ad88b9d5bd4a3963b0a0b1cd35ec396b40d2ecad1311e8b1463ff8a6",
+      "review_status": "pending",
+      "reviewer": null,
+      "checks": [
+        "Check script and example spelling against cited primary references",
+        "Check pronunciation explanations and scoped exceptions",
+        "Exercise instructions with intended beginners",
+        "Review any future recording separately; no audio approval inferred"
+      ]
+    }
+  ],
+  "classical_latin_review": null
+}
